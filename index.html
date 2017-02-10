@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.6.0/redux.min.js"></script>
+</head>
+<body>
+
+<h3 id="counter"></h3>
+<div>
+    <button type="button" onclick="increment()">Increment</button>
+    <button type="button" onclick="decrement()">Decrement</button>
+</div>
+
+<script>
+
+    //reducer function.
+    function reducer(state, action) {
+
+        if(!state){
+            state = 0;
+        }
+
+        switch (action.type) {
+            case 'INCREMENT':
+                return state + 1;
+            case 'DECREMENT':
+                return state - 1;
+            default:
+                return state
+        }
+
+    }
+
+    //Redux is an global variable.
+    //createStore is an function that redux provide.
+    var createStore = Redux.createStore;
+
+    //bind reducer function.
+    //store an object that have 3 important method.
+    // 1 dispatch, 2 getState, 3 subscribe.
+    var store = createStore(reducer);
+
+    function render(){
+        //getState retrive the current state of the app.
+        document.getElementById('counter').innerHTML = store.getState()
+    }
+
+    //call first time manually for initial value.
+    render();
+
+    //subscribe callback run whenever action dispatch.
+    store.subscribe(render);
+
+    //increment function.
+    function increment(){
+        //dispatch an action.
+        store.dispatch({type: 'INCREMENT'});
+    }
+
+    //decrement function.
+    function decrement(){
+        //dispatch an action.
+        store.dispatch({type: 'DECREMENT'});
+    }
+
+
+</script>
+</body>
+</html>
